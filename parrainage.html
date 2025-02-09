@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Définir la période de parrainage</title>
+</head>
+<body>
+    <h2>Définir la période de parrainage</h2>
+    <form id="parrainageForm">
+        <label for="date_debut">Date de début :</label>
+        <input type="date" id="date_debut" name="date_debut" required>
+
+        <label for="date_fin">Date de fin :</label>
+        <input type="date" id="date_fin" name="date_fin" required>
+
+        <button type="submit">Enregistrer</button>
+    </form>
+
+    <p id="message"></p>
+
+    <script>
+        document.getElementById("parrainageForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            let dateDebut = document.getElementById("date_debut").value;
+            let dateFin = document.getElementById("date_fin").value;
+
+            let formData = new FormData();
+            formData.append("date_debut", dateDebut);
+            formData.append("date_fin", dateFin);
+
+            fetch("set_parrainage.php", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("message").innerText = data.message;
+            })
+            .catch(error => console.error("Erreur:", error));
+        });
+    </script>
+</body>
+</html>
