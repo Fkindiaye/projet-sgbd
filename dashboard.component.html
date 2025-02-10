@@ -1,0 +1,15 @@
+<p>dashboard works!</p>
+<div class="container">
+    <h1>Suivi des Parrainages</h1>
+  
+    <!-- Graphique -->
+    <div>
+      <canvas baseChart
+              [datasets]="barChartData.datasets"
+              [labels]="barChartData.labels"
+              [options]="barChartOptions"
+              [chartType]="barChartType">
+      </canvas>
+    </div>
+  </div>
+  
