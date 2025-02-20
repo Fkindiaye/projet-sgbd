@@ -1,12 +1,13 @@
-import React from "react";
-import ParrainagePeriod from "./ParrainagePeriod";  // Import du composant
+// src/App.js
+import React from 'react';
+import RoutesConfig from './routes';
 
-function App() {
+const App = () => {
   return (
     <div className="App">
-      <ParrainagePeriod />
+      <RoutesConfig />
     </div>
   );
-}
+};
 
 export default App;
