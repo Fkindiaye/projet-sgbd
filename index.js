@@ -1,86 +1,77 @@
-const express = require('express');
-const mysql = require('mysql2');
-const cors = require('cors');
-const bodyParser = require('body-parser');
+'use strict';
 
-const app = express();
-const port = 5000;
+const SqlString = require('sqlstring');
 
-app.use(cors());
-app.use(bodyParser.json());
+const ConnectionConfig = require('./lib/connection_config.js');
+const parserCache = require('./lib/parsers/parser_cache.js');
 
-// Connexion à la base de données MariaDB
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'parrainage'
-});
+const Connection = require('./lib/connection.js');
 
-db.connect(err => {
-    if (err) {
-        console.error('❌ Erreur de connexion à la base de données:', err);
-    } else {
-        console.log('✅ Connecté à MariaDB');
-    }
-});
+exports.createConnection = require('./lib/create_connection.js');
+exports.connect = exports.createConnection;
+exports.Connection = Connection;
+exports.ConnectionConfig = ConnectionConfig;
 
-// ✅ Vérification de l'électeur
-app.post('/verifier-electeur', (req, res) => {
-    const { numero_electeur, cin } = req.body;
-    if (!numero_electeur || !cin) {
-        return res.status(400).json({ success: false, message: "Tous les champs sont obligatoires !" });
-    }
+const Pool = require('./lib/pool.js');
+const PoolCluster = require('./lib/pool_cluster.js');
+const createPool = require('./lib/create_pool.js');
+const createPoolCluster = require('./lib/create_pool_cluster.js');
 
-    console.log("🔹 Données reçues :", numero_electeur, cin);
+exports.createPool = createPool;
 
-    const sql = "SELECT * FROM electeurs WHERE TRIM(numero_electeur) = TRIM(?) AND TRIM(cin) = TRIM(?)";
-    db.query(sql, [numero_electeur, cin], (err, result) => {
-        if (err) {
-            console.error("❌ Erreur SQL :", err);
-            return res.status(500).json({ error: err.message });
-        }
+exports.createPoolCluster = createPoolCluster;
 
-        console.log("🔹 Résultat SQL :", result);
+exports.createQuery = Connection.createQuery;
 
-        if (result.length > 0) {
-            res.json({ success: true, electeur: result[0] });
-        } else {
-            res.json({ success: false, message: 'Informations incorrectes' });
-        }
-    });
-});
+exports.Pool = Pool;
 
-// ✅ Récupération des candidats
-app.get('/candidats', (req, res) => {
-    const sql = "SELECT * FROM candidats";
-    db.query(sql, (err, result) => {
-        if (err) {
-            console.error("❌ Erreur SQL :", err);
-            return res.status(500).json({ error: err.message });
-        }
-        res.json(result);
-    });
-});
+exports.PoolCluster = PoolCluster;
 
-// ✅ Enregistrement du choix de parrainage
-app.post('/enregistrer-parrainage', (req, res) => {
-    const { numero_electeur, candidat_id } = req.body;
+exports.createServer = function (handler) {
+  const Server = require('./lib/server.js');
+  const s = new Server();
+  if (handler) {
+    s.on('connection', handler);
+  }
+  return s;
+};
 
-    if (!numero_electeur || !candidat_id) {
-        return res.status(400).json({ success: false, message: "Tous les champs sont requis !" });
-    }
+exports.PoolConnection = require('./lib/pool_connection.js');
+exports.authPlugins = require('./lib/auth_plugins');
+exports.escape = SqlString.escape;
+exports.escapeId = SqlString.escapeId;
+exports.format = SqlString.format;
+exports.raw = SqlString.raw;
 
-    const sql = "INSERT INTO parrainages (numero_electeur, candidat_id) VALUES (?, ?)";
-    db.query(sql, [numero_electeur, candidat_id], (err, result) => {
-        if (err) {
-            console.error("❌ Erreur SQL :", err);
-            return res.status(500).json({ error: err.message });
-        }
-        res.json({ success: true, message: '✅ Parrainage enregistré avec succès' });
-    });
-});
+exports.__defineGetter__(
+  'createConnectionPromise',
+  () => require('./promise.js').createConnection
+);
 
-app.listen(port, () => {
-    console.log(`🚀 Serveur backend en cours d'exécution sur http://localhost:${port}`);
-});
+exports.__defineGetter__(
+  'createPoolPromise',
+  () => require('./promise.js').createPool
+);
+
+exports.__defineGetter__(
+  'createPoolClusterPromise',
+  () => require('./promise.js').createPoolCluster
+);
+
+exports.__defineGetter__('Types', () => require('./lib/constants/types.js'));
+
+exports.__defineGetter__('Charsets', () =>
+  require('./lib/constants/charsets.js')
+);
+
+exports.__defineGetter__('CharsetToEncoding', () =>
+  require('./lib/constants/charset_encodings.js')
+);
+
+exports.setMaxParserCache = function (max) {
+  parserCache.setMaxCache(max);
+};
+
+exports.clearParserCache = function () {
+  parserCache.clearCache();
+};
