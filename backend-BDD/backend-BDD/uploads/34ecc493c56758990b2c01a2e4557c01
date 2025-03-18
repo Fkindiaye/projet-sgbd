@@ -1,0 +1,4 @@
+id,cin,numero_electeur,nom,prenom,date_naissance,bureau_vote,email,telephone,code_authentification
+7,123456789,12345,Sall,Fatima,1998-01-01,Bureau1,sallfatima@gmail.com,123456789,ABC123
+8,987654321,67890,Diop,Alioune,1995-06-15,Bureau2,aliounediop@yahoo.com,987654321,XYZ789
+9,543216789,11111,Ndiaye,Amina,2000-03-22,Bureau3,amina.ndiaye@hotmail.com,543216789,KLM456
