@@ -1,0 +1,30 @@
+.interface-container {
+    text-align: center;
+    margin-top: 50px;
+  }
+  
+  .interface-options {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .interface-btn {
+    display: inline-block;
+    background-color: #2980b9;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-decoration: none;
+    transition: 0.3s ease-in-out;
+  }
+  
+  .interface-btn:hover {
+    background-color: #1a5276;
+    transform: scale(1.05);
+  }
+  
