@@ -1,0 +1,107 @@
+/* Styles généraux */
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f7fc;
+  color: #333;
+  text-align: center;
+}
+
+/* Conteneur principal */
+.accueil-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 20px;
+}
+
+/* Titre principal */
+.accueil-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+/* Disposition en trois colonnes */
+.accueil-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 40px;
+  width: 80%;
+  max-width: 1200px;
+}
+
+/* Cartes des sections */
+.accueil-card {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s;
+}
+
+.accueil-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Couleurs pour différencier les sections */
+.dge {
+  border-top: 4px solid #2980b9;
+}
+
+.candidat {
+  border-top: 4px solid #27ae60;
+}
+
+.electeur {
+  border-top: 4px solid #e67e22;
+}
+
+/* Boutons */
+.accueil-btn {
+  display: inline-block;
+  background-color: #2980b9;
+  color: white;
+  padding: 12px 20px;
+  margin-top: 10px;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: bold;
+  text-decoration: none;
+  transition: 0.3s ease-in-out;
+}
+
+.accueil-btn:hover {
+  background-color: #1a5276;
+  transform: scale(1.05);
+}
+/* Menu déroulant */
+.menu-options {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.total-parrainages {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #2c3e50;
+  padding: 15px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.counter {
+  color: #007bff;
+  font-size: 2rem;
+  font-weight: bold;
+}
